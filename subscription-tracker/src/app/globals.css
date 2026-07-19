@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+  Design tokens — "Ledger" theme
+  Dark (default): graphite ink background, cornflower primary, amber for
+  due-soon states, mint for active/savings, coral for overdue/destructive.
+  Values are R G B triplets consumed via rgb(var(--x) / <alpha-value>).
+*/
+:root {
+  --bg: 15 18 21;
+  --surface: 23 27 31;
+  --surface-2: 30 35 40;
+  --border: 38 44 51;
+  --ink: 237 239 242;
+  --muted: 139 147 161;
+  --primary: 91 141 239;
+  --primary-dark: 74 118 212;
+  --amber: 242 184 75;
+  --mint: 78 203 143;
+  --coral: 229 99 122;
+}
+
+.light {
+  --bg: 247 247 245;
+  --surface: 255 255 255;
+  --surface-2: 240 241 239;
+  --border: 228 229 227;
+  --ink: 20 24 28;
+  --muted: 102 112 133;
+  --primary: 74 118 212;
+  --primary-dark: 58 98 184;
+  --amber: 181 122 15;
+  --mint: 21 138 92;
+  --coral: 200 55 79;
+}
+
+* {
+  border-color: rgb(var(--border));
+}
+
+html {
+  color-scheme: dark;
+}
+html.light {
+  color-scheme: light;
+}
+
+body {
+  background-color: rgb(var(--bg));
+  color: rgb(var(--ink));
+  font-feature-settings: "cv11", "ss01";
+}
+
+/* Tabular figures everywhere money/dates appear */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: rgb(var(--primary) / 0.35);
+}
+
+/* Ledger rail — signature dashboard element: a dotted connector between
+   upcoming charge rows, evoking a paper statement / receipt tape. */
+.ledger-rail {
+  position: relative;
+}
+.ledger-rail::before {
+  content: "";
+  position: absolute;
+  left: 5px;
+  top: 6px;
+  bottom: 6px;
+  width: 1px;
+  background-image: linear-gradient(
+    to bottom,
+    rgb(var(--border)) 0,
+    rgb(var(--border)) 4px,
+    transparent 4px,
+    transparent 8px
+  );
+  background-size: 1px 8px;
+}
+
+/* Custom scrollbar, subtle */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgb(var(--border));
+  border-radius: 999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* Visible keyboard focus */
+:focus-visible {
+  outline: 2px solid rgb(var(--primary));
+  outline-offset: 2px;
+  border-radius: 4px;
+}
